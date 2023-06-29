@@ -1,12 +1,14 @@
 #!/bin/sh
 
-db_set () {
+function db_set {
   echo "$1,$2" >> database
 }
 
-db_get () {
-  grep "^$1," database | sed -e "s/^$1,//" | tail -n 1
+function db_get {
+  value=$(grep "^$1," database | sed -e "s/^$1,//" | tail -n 1)
+  echo $value
 }
+
 
 if [ $# -eq 2 ]
 then
@@ -14,6 +16,6 @@ $(db_set $1 $2)
 fi
 if [ $# -eq 1 ]
 then
-grep "^$1," database | sed -e "s/^$1,//" | tail -n 1
-# $(db_get $1)
+value=$(db_get $1)
+echo "$value"
 fi
